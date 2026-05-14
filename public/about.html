@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - CyberFeed</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">&#x1F6E1; CyberFeed</a>
+    <a href="/">Home</a>
+    <a href="/about" class="active">About</a>
+    <a href="/saved">Saved Articles</a>
+  </nav>
+
+  <div class="page-header">
+    <h1>About CyberFeed</h1>
+    <p>Learn more about this project and why it was built.</p>
+  </div>
+
+  <div class="container">
+    <div class="about-content">
+
+      <h2>What is CyberFeed?</h2>
+      <p>
+        CyberFeed is a Cybersecurity News and Threat Feed Dashboard that brings together
+        the latest cybersecurity news from across the web into one clean, organized interface.
+        Instead of having to visit multiple websites to stay informed about threats like ransomware,
+        phishing, data breaches, and malware, you can find it all here.
+      </p>
+
+      <h2>Who is this for?</h2>
+      <p>This dashboard is built for:</p>
+      <ul>
+        <li>Cybersecurity students learning about the current threat landscape</li>
+        <li>IT administrators who need to stay on top of emerging threats</li>
+        <li>Developers who want to be aware of security vulnerabilities</li>
+        <li>Small business owners who care about protecting their data</li>
+        <li>Anyone interested in cybersecurity and digital safety</li>
+      </ul>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Search for any cybersecurity topic using keyword search</li>
+        <li>Filter articles by threat category (Ransomware, Phishing, Malware, etc.)</li>
+        <li>View article summaries with source, date, and description</li>
+        <li>Click "Read More" to view the full article on the original source</li>
+        <li>Save or bookmark articles to read later on the Saved Articles page</li>
+        <li>Visual chart showing the breakdown of threat types in current results</li>
+      </ul>
+
+      <h2>Technology Stack</h2>
+      <p>This project was built using the following technologies:</p>
+      <div class="tech-tags">
+        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">CSS</span>
+        <span class="tech-tag">JavaScript</span>
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">Express</span>
+        <span class="tech-tag">Supabase</span>
+        <span class="tech-tag">GNews API</span>
+        <span class="tech-tag">Chart.js</span>
+        <span class="tech-tag">Day.js</span>
+      </div>
+
+      <h2>Why GNews API?</h2>
+      <p>
+        The GNews API was chosen because it supports keyword-based searches and returns
+        well-structured data including article titles, descriptions, publication dates, source names,
+        and images. This makes it easy to pull in relevant cybersecurity news and present it
+        in a clean, readable format.
+      </p>
+
+      <h2>Data Storage</h2>
+      <p>
+        Supabase is used as the backend database to store bookmarked articles. When you save
+        an article on the home page, it gets stored in a Supabase database and can be retrieved
+        on the Saved Articles page at any time. You can also delete saved articles when you
+        no longer need them.
+      </p>
+
+      <h2>About This Project</h2>
+      <p>
+        This application was built as a final project for INST 377 at the University of Maryland.
+        The goal was to design and build a full-stack web application that solves a real problem
+        using modern web technologies including a Node.js backend, external API integration,
+        and a Supabase database.
+      </p>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>CyberFeed &mdash; INST 377 Final Project &mdash; Powered by GNews API</p>
+  </footer>
+
+</body>
+</html>
