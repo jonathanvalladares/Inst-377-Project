@@ -1,91 +1,84 @@
-# CyberFeed - Cybersecurity News & Threat Feed Dashboard
+# CyberFeed - Cybersecurity News Dashboard
 
 ## Description
 
-CyberFeed is a full-stack web application that aggregates cybersecurity news and threat intelligence into a single, organized dashboard. Instead of visiting multiple websites to stay informed, users can search for cybersecurity topics, filter articles by threat category (ransomware, phishing, malware, data breaches, hacking), and bookmark articles to read later. The application pulls live news from the GNews API, stores saved articles in a Supabase database, and visualizes threat category breakdowns using Chart.js.
+CyberFeed is a web app that lets you search and browse the latest cybersecurity news all in one place. You can search for topics like ransomware or phishing, filter articles by threat category, and save articles to read later. It uses the GNews API to pull in live news, Supabase to store saved articles, and Chart.js to show a breakdown of what types of threats are showing up in the results.
+
+This was built as a final project for INST 377 at the University of Maryland.
 
 ## Target Browsers
 
-This application is designed for use on contemporary desktop browsers. It has been tested and works on:
+This app works best on desktop browsers. We tested it on:
 
-- **Google Chrome** (version 100+) - Recommended
-- **Mozilla Firefox** (version 100+)
-- **Microsoft Edge** (version 100+)
-- **Safari** (version 15+)
+- Google Chrome (recommended)
+- Firefox
+- Microsoft Edge
+- Safari
 
-The app is functional on mobile browsers but is optimized for desktop use.
+It works on mobile too but the layout is mainly designed for desktop.
 
 ## Link to Developer Manual
 
-[Developer Manual](#developer-manual)
+[Jump to Developer Manual](#developer-manual)
 
 ---
 
 # Developer Manual
 
-## Audience
+This section is for future developers who want to run or work on this project. It assumes you know basic web development and Node.js but haven't seen this project before.
 
-This document is written for future developers who will be taking over or contributing to the CyberFeed project. It assumes you have general knowledge of web development, Node.js, and working with APIs, but no prior knowledge of this specific system.
+## How to Install
 
-## How to Install the Application and All Dependencies
+### What you need first
 
-### Prerequisites
+- Node.js installed on your computer (v18 or higher)
+- A Supabase account (free at supabase.com)
+- A GNews API key (free at gnews.io)
 
-Before getting started, make sure you have the following installed:
+### Steps
 
-- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
-- **npm** (comes with Node.js)
-- A **Supabase** account - [Sign up here](https://supabase.com/)
-- A **GNews API** key - [Get one here](https://gnews.io/)
-
-### Setup Steps
-
-1. Clone the repository:
+1. Clone the repo and go into the folder:
    ```bash
    git clone https://github.com/jonathanvalladares/inst-377-project.git
    cd inst-377-project
    ```
 
-2. Install dependencies:
+2. Install the dependencies:
    ```bash
    npm install
    ```
 
-3. Create a `.env` file in the root of the project with the following variables:
+3. Create a `.env` file in the root folder with these three variables:
    ```
-   SUPABASE_URL=your_supabase_project_url
-   SUPABASE_KEY=your_supabase_anon_key
-   GNEWS_API_KEY=your_gnews_api_key
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   GNEWS_API_KEY=your_gnews_key
    ```
 
-4. Set up the Supabase database. In your Supabase project, create a table called `saved_articles` with the following columns:
+4. In your Supabase project, create a table called `saved_articles` with these columns:
 
-   | Column Name  | Type      | Notes                    |
-   |-------------|-----------|--------------------------|
-   | id          | uuid      | Primary key, auto-generated |
-   | title       | text      |                          |
-   | source      | text      |                          |
-   | description | text      |                          |
-   | url         | text      |                          |
-   | published_at| text      |                          |
-   | image_url   | text      |                          |
-   | created_at  | timestamp | Default: now()           |
+   | Column       | Type      | Notes                  |
+   |-------------|-----------|------------------------|
+   | id          | uuid      | primary key, auto      |
+   | title       | text      |                        |
+   | source      | text      |                        |
+   | description | text      |                        |
+   | url         | text      |                        |
+   | published_at| text      |                        |
+   | image_url   | text      |                        |
+   | created_at  | timestamp | default: now()         |
 
-## How to Run the Application on a Server
+## How to Run the App
 
-### Running Locally
-
-Start the development server with:
+To start the server locally:
 
 ```bash
 npm start
 ```
 
-This uses `nodemon` which automatically restarts the server when you make changes. The app will be available at `http://localhost:3000`.
+This runs nodemon so the server restarts automatically when you save changes. Open `http://localhost:3000` in your browser.
 
-### Running in Production
-
-For a standard production environment, you can run:
+If you just want to run it without nodemon:
 
 ```bash
 node index.js
@@ -93,55 +86,50 @@ node index.js
 
 ### Deploying to Vercel
 
-This project includes a `vercel.json` configuration file. To deploy:
+There is already a `vercel.json` file in the project. To deploy:
 
-1. Install the Vercel CLI: `npm install -g vercel`
-2. Run `vercel` in the project root and follow the prompts
-3. Set your environment variables in the Vercel dashboard under Project Settings > Environment Variables
+1. Run `npm install -g vercel`
+2. Run `vercel` in the project folder and follow the steps
+3. Add your environment variables in the Vercel dashboard under Settings > Environment Variables
 
-## How to Run Tests
+## Tests
 
-There are no automated tests written for this project at this time. To manually test the application:
+We didn't write any automated tests for this project. To test it manually:
 
-1. Start the server with `npm start`
-2. Open `http://localhost:3000` in your browser
-3. Test the search functionality by typing keywords and clicking Search
-4. Test category filters by clicking the filter buttons
-5. Test saving an article by clicking the "+ Save" button on any article card
-6. Navigate to `/saved` and verify the saved article appears
-7. Test the delete button to remove a saved article
+1. Run `npm start` and open `http://localhost:3000`
+2. Try searching for a keyword and make sure articles load
+3. Click the filter buttons and make sure they change the results
+4. Click "+ Save" on an article and check that it shows up on the Saved Articles page
+5. On the Saved Articles page, try deleting an article
 
-## API Documentation
+## API Endpoints
 
-All API routes are defined in `index.js`.
+All the routes are in `index.js`.
 
 ### GET `/api/news`
 
-Fetches cybersecurity news articles from the GNews external API.
+Gets news articles from the GNews API. Used by the home page to load articles.
 
-**Query Parameters:**
-- `q` (optional) - Search keyword. Defaults to `"cybersecurity"` if not provided.
+Query params:
+- `q` - the search term (defaults to "cybersecurity" if you don't pass one)
 
-**Example Request:**
+Example:
 ```
 GET /api/news?q=ransomware
 ```
 
-**Example Response:**
+Response:
 ```json
 {
   "totalArticles": 10,
   "articles": [
     {
-      "title": "Article Title",
-      "description": "Short description...",
-      "url": "https://example.com/article",
+      "title": "Article title here",
+      "description": "Short description",
+      "url": "https://example.com",
       "image": "https://example.com/image.jpg",
       "publishedAt": "2024-11-01T10:00:00Z",
-      "source": {
-        "name": "Example News",
-        "url": "https://example.com"
-      }
+      "source": { "name": "Example News" }
     }
   ]
 }
@@ -151,25 +139,24 @@ GET /api/news?q=ransomware
 
 ### GET `/api/saved`
 
-Retrieves all saved/bookmarked articles from the Supabase database.
+Gets all saved articles from Supabase. Used by the Saved Articles page.
 
-**Example Request:**
+Example:
 ```
 GET /api/saved
 ```
 
-**Example Response:**
+Response:
 ```json
 [
   {
-    "id": "uuid-here",
-    "title": "Article Title",
-    "source": "Source Name",
-    "description": "Description...",
-    "url": "https://example.com/article",
+    "id": "some-uuid",
+    "title": "Article title",
+    "source": "Source name",
+    "description": "Description",
+    "url": "https://example.com",
     "published_at": "2024-11-01T10:00:00Z",
-    "image_url": "https://example.com/image.jpg",
-    "created_at": "2024-11-02T12:00:00Z"
+    "image_url": "https://example.com/image.jpg"
   }
 ]
 ```
@@ -178,66 +165,49 @@ GET /api/saved
 
 ### POST `/api/saved`
 
-Saves a bookmarked article to the Supabase database.
+Saves an article to Supabase. Called when you click the "+ Save" button.
 
-**Request Body (JSON):**
+Request body:
 ```json
 {
-  "title": "Article Title",
-  "source": "Source Name",
-  "description": "Short description of the article",
-  "url": "https://example.com/article",
+  "title": "Article title",
+  "source": "Source name",
+  "description": "Description",
+  "url": "https://example.com",
   "published_at": "2024-11-01T10:00:00Z",
   "image_url": "https://example.com/image.jpg"
 }
 ```
 
-**Example Response:**
-```json
-[
-  {
-    "id": "uuid-here",
-    "title": "Article Title",
-    "source": "Source Name",
-    ...
-  }
-]
-```
+Returns the saved article object from Supabase.
 
 ---
 
 ### DELETE `/api/saved/:id`
 
-Removes a saved article from the Supabase database by its ID.
+Deletes a saved article by its id. Called when you click the Remove button.
 
-**URL Parameter:**
-- `id` - The UUID of the saved article to delete
-
-**Example Request:**
+Example:
 ```
-DELETE /api/saved/abc123-uuid-here
+DELETE /api/saved/some-uuid-here
 ```
 
-**Example Response:**
+Response:
 ```json
-{
-  "message": "Article removed successfully"
-}
+{ "message": "Article removed successfully" }
 ```
 
-## Known Bugs and Issues
+## Known Bugs
 
-- **GNews free tier limit**: The GNews API free plan allows 100 requests per day. If the limit is exceeded, the news feed will stop loading and show an error.
-- **Duplicate saves**: The application does not currently check if an article has already been saved before inserting it into the database. A user could save the same article multiple times.
-- **Image loading errors**: Some article images from GNews return broken URLs. The `onerror` handler hides the broken image, but the card layout may appear differently without an image.
-- **No user authentication**: All users share the same saved articles list because there is no login system. Any user can see and delete any saved article.
+- GNews free tier only allows 100 requests per day. After that the news feed won't load.
+- You can save the same article more than once, there's no duplicate check right now.
+- Some article images are broken links so those cards just show up without an image.
+- There's no login system so everyone shares the same saved articles list.
 
-## Roadmap for Future Development
+## Future Development
 
-- **User authentication**: Add login functionality so each user has their own saved articles.
-- **Duplicate detection**: Before saving, check if the article URL already exists in the database and prevent duplicate saves.
-- **Search history**: Save user search queries to Supabase so users can quickly re-run past searches.
-- **Pagination**: The GNews API supports pagination. Implement "Load More" or page controls to show more than 10 articles.
-- **Email alerts**: Allow users to subscribe to email alerts for specific threat categories.
-- **Dark/light mode toggle**: Add a toggle so users can switch between the current dark theme and a light mode.
-- **Mobile optimization**: Improve the layout and usability for mobile devices.
+- Add user accounts so everyone has their own saved list
+- Check for duplicate articles before saving
+- Add pagination so you can load more than 10 articles at a time
+- Save search history so you can re-run searches easily
+- Better mobile layout
