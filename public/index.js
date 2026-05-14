@@ -1,11 +1,14 @@
 let chartInstance = null;
 
+// fetch news articles from our backend
 async function loadNews(query) {
   const container = document.getElementById('articlesContainer');
   container.innerHTML = '<p class="status-msg">Loading news...</p>';
 
-  const response = await fetch(`/api/news?q=${encodeURIComponent(query)}`);
+  const response = await fetch('/api/news?q=' + encodeURIComponent(query));
   const data = await response.json();
+
+  console.log('News data from API:', data);
 
   if (!data.articles || data.articles.length === 0) {
     container.innerHTML = '<p class="status-msg">No articles found. Try a different search.</p>';
@@ -16,19 +19,21 @@ async function loadNews(query) {
   renderChart(data.articles);
 }
 
+// display articles on the page
 function renderArticles(articles, container) {
   const grid = document.createElement('div');
   grid.className = 'articles-grid';
 
-  articles.forEach(article => {
+  articles.forEach(function(article) {
     const card = document.createElement('div');
     card.className = 'article-card';
 
     const publishedDate = dayjs(article.publishedAt).format('MMM D, YYYY');
 
-    const imgHtml = article.image
-      ? `<img src="${article.image}" alt="Article image" onerror="this.style.display='none'" />`
-      : '';
+    let imgHtml = '';
+    if (article.image) {
+      imgHtml = '<img src="' + article.image + '" alt="Article image" />';
+    }
 
     card.innerHTML = `
       ${imgHtml}
@@ -38,7 +43,7 @@ function renderArticles(articles, container) {
         <p class="card-desc">${article.description || 'No description available.'}</p>
         <span class="card-date">${publishedDate}</span>
         <div class="card-actions">
-          <a href="${article.url}" target="_blank" rel="noopener">Read More &rarr;</a>
+          <a href="${article.url}" target="_blank">Read More &rarr;</a>
           <button class="btn btn-save" onclick='saveArticle(${JSON.stringify(article)})'>+ Save</button>
         </div>
       </div>
@@ -51,6 +56,7 @@ function renderArticles(articles, container) {
   container.appendChild(grid);
 }
 
+// build a bar chart showing how many articles fall into each threat category
 function renderChart(articles) {
   const counts = {
     Ransomware: 0,
@@ -61,8 +67,10 @@ function renderChart(articles) {
     Other: 0
   };
 
-  articles.forEach(article => {
-    const text = ((article.title || '') + ' ' + (article.description || '')).toLowerCase();
+  // go through each article and categorize it based on keywords
+  articles.forEach(function(article) {
+    const text = (article.title + ' ' + article.description).toLowerCase();
+
     if (text.includes('ransomware')) {
       counts['Ransomware']++;
     } else if (text.includes('phishing')) {
@@ -78,8 +86,11 @@ function renderChart(articles) {
     }
   });
 
+  console.log('Threat counts:', counts);
+
   const ctx = document.getElementById('threatChart').getContext('2d');
 
+  // destroy old chart before making a new one
   if (chartInstance) {
     chartInstance.destroy();
   }
@@ -107,24 +118,13 @@ function renderChart(articles) {
           '#00ff88',
           '#64748b'
         ],
-        borderWidth: 1,
-        borderRadius: 4
+        borderWidth: 1
       }]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: { display: false }
-      },
       scales: {
-        x: {
-          ticks: { color: '#94a3b8' },
-          grid: { color: '#1e293b' }
-        },
         y: {
-          ticks: { color: '#94a3b8', stepSize: 1 },
-          grid: { color: '#1e293b' },
           beginAtZero: true
         }
       }
@@ -132,20 +132,21 @@ function renderChart(articles) {
   });
 }
 
+// save an article to the database
 async function saveArticle(article) {
-  const body = {
-    title: article.title,
-    source: article.source.name,
-    description: article.description || '',
-    url: article.url,
-    published_at: article.publishedAt,
-    image_url: article.image || ''
-  };
+  console.log('Saving article:', article.title);
 
   const response = await fetch('/api/saved', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify({
+      title: article.title,
+      source: article.source.name,
+      description: article.description || '',
+      url: article.url,
+      published_at: article.publishedAt,
+      image_url: article.image || ''
+    })
   });
 
   if (response.ok) {
@@ -168,10 +169,10 @@ function filterCategory(keyword, btn) {
   loadNews(keyword);
 }
 
-document.getElementById('searchInput').addEventListener('keydown', function (e) {
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') searchNews();
 });
 
-window.onload = function () {
+window.onload = function() {
   loadNews('cybersecurity');
 };

@@ -1,11 +1,14 @@
 let allSaved = [];
 
+// load all saved articles from the database
 async function loadSaved() {
   const container = document.getElementById('savedContainer');
   container.innerHTML = '<p class="status-msg">Loading saved articles...</p>';
 
   const response = await fetch('/api/saved');
   const data = await response.json();
+
+  console.log('Saved articles:', data);
 
   allSaved = data;
 
@@ -17,6 +20,7 @@ async function loadSaved() {
   renderSaved(data, container);
 }
 
+// display saved articles on the page
 function renderSaved(articles, container) {
   if (articles.length === 0) {
     container.innerHTML = '<p class="status-msg">No articles match your filter.</p>';
@@ -26,14 +30,15 @@ function renderSaved(articles, container) {
   const list = document.createElement('div');
   list.className = 'saved-list';
 
-  articles.forEach(article => {
+  articles.forEach(function(article) {
     const card = document.createElement('div');
     card.className = 'saved-card';
     card.setAttribute('data-id', article.id);
 
-    const publishedDate = article.published_at
-      ? dayjs(article.published_at).format('MMM D, YYYY')
-      : 'Unknown date';
+    let publishedDate = 'Unknown date';
+    if (article.published_at) {
+      publishedDate = dayjs(article.published_at).format('MMM D, YYYY');
+    }
 
     card.innerHTML = `
       <div class="saved-info">
@@ -43,7 +48,7 @@ function renderSaved(articles, container) {
         <p class="saved-date">${publishedDate}</p>
       </div>
       <div class="saved-actions">
-        <a href="${article.url}" target="_blank" rel="noopener">Read More &rarr;</a>
+        <a href="${article.url}" target="_blank">Read More &rarr;</a>
         <button class="btn btn-danger" onclick="deleteArticle('${article.id}')">Remove</button>
       </div>
     `;
@@ -55,16 +60,20 @@ function renderSaved(articles, container) {
   container.appendChild(list);
 }
 
+// delete a saved article by id
 async function deleteArticle(id) {
   const confirmed = confirm('Remove this article from saved?');
   if (!confirmed) return;
 
-  const response = await fetch(`/api/saved/${id}`, {
+  console.log('Deleting article with id:', id);
+
+  const response = await fetch('/api/saved/' + id, {
     method: 'DELETE'
   });
 
   if (response.ok) {
-    allSaved = allSaved.filter(a => a.id !== id);
+    // remove it from our local list and re-render
+    allSaved = allSaved.filter(function(a) { return a.id !== id; });
     const container = document.getElementById('savedContainer');
     renderSaved(allSaved, container);
   } else {
@@ -72,13 +81,15 @@ async function deleteArticle(id) {
   }
 }
 
+// filter saved articles by keyword
 function filterSaved() {
   const keyword = document.getElementById('filterInput').value.toLowerCase();
-  const filtered = allSaved.filter(a =>
-    (a.title || '').toLowerCase().includes(keyword) ||
-    (a.description || '').toLowerCase().includes(keyword) ||
-    (a.source || '').toLowerCase().includes(keyword)
-  );
+  const filtered = allSaved.filter(function(a) {
+    return (a.title || '').toLowerCase().includes(keyword) ||
+           (a.description || '').toLowerCase().includes(keyword) ||
+           (a.source || '').toLowerCase().includes(keyword);
+  });
+
   const container = document.getElementById('savedContainer');
   renderSaved(filtered, container);
 }
