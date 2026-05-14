@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 const supabaseClient = require('@supabase/supabase-js');
 const dotenv = require('dotenv');
 
-const app = express();
-const port = 3000;
 dotenv.config();
 
-app.use(bodyParser.json());
+const app = express();
+const port = 3000;
+
+// serve files from the public folder
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
@@ -28,20 +30,22 @@ app.get('/saved', (req, res) => {
   res.sendFile('public/saved.html', { root: __dirname });
 });
 
-// GET /api/news - fetch cybersecurity news from GNews external API
+// GET /api/news - fetch news from GNews API
 app.get('/api/news', async (req, res) => {
   const query = req.query.q || 'cybersecurity';
-  console.log('Fetching news for query:', query);
+  console.log('Fetching news for:', query);
+
+  const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&max=10&token=${GNEWS_KEY}`;
 
   try {
-    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&max=10&token=${GNEWS_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
+    console.log('Got', data.articles ? data.articles.length : 0, 'articles');
     res.json(data);
   } catch (err) {
     console.log('Error fetching from GNews:', err);
     res.statusCode = 500;
-    res.json({ error: 'Failed to fetch news from GNews' });
+    res.json({ error: 'Failed to fetch news' });
   }
 });
 
