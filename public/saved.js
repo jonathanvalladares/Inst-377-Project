@@ -60,7 +60,7 @@ function renderSaved(articles, container) {
   container.appendChild(list);
 }
 
-// delete a saved article by id
+// delete a saved article 
 async function deleteArticle(id) {
   const confirmed = confirm('Remove this article from saved?');
   if (!confirmed) return;
@@ -72,7 +72,7 @@ async function deleteArticle(id) {
   });
 
   if (response.ok) {
-    // remove it from our local list and re-render
+    
     allSaved = allSaved.filter(function(a) { return a.id !== id; });
     const container = document.getElementById('savedContainer');
     renderSaved(allSaved, container);
@@ -81,7 +81,7 @@ async function deleteArticle(id) {
   }
 }
 
-// filter saved articles by keyword
+// filter saved articles 
 function filterSaved() {
   const keyword = document.getElementById('filterInput').value.toLowerCase();
   const filtered = allSaved.filter(function(a) {

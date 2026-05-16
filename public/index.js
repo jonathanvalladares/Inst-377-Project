@@ -19,7 +19,7 @@ async function loadNews(query) {
   renderChart(data.articles);
 }
 
-// display articles on the page
+// show articles 
 function renderArticles(articles, container) {
   const grid = document.createElement('div');
   grid.className = 'articles-grid';
@@ -56,7 +56,7 @@ function renderArticles(articles, container) {
   container.appendChild(grid);
 }
 
-// build a bar chart showing how many articles fall into each threat category
+// bar chart
 function renderChart(articles) {
   const counts = {
     Ransomware: 0,
@@ -90,7 +90,7 @@ function renderChart(articles) {
 
   const ctx = document.getElementById('threatChart').getContext('2d');
 
-  // destroy old chart before making a new one
+  // remove old chart so there aren't 2 charts at once
   if (chartInstance) {
     chartInstance.destroy();
   }
