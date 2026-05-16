@@ -30,7 +30,7 @@ app.get('/saved', (req, res) => {
   res.sendFile('public/saved.html', { root: __dirname });
 });
 
-// GET /api/news - fetch news from GNews API
+// fetch news from GNews API
 app.get('/api/news', async (req, res) => {
   const query = req.query.q || 'cybersecurity';
   console.log('Fetching news for:', query);
@@ -49,7 +49,7 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
-// GET /api/saved - retrieve all saved articles from Supabase
+// retrieve all saved articles from Supabase
 app.get('/api/saved', async (req, res) => {
   console.log('Getting all saved articles');
 
@@ -65,7 +65,7 @@ app.get('/api/saved', async (req, res) => {
   }
 });
 
-// POST /api/saved - save/bookmark an article to Supabase
+// save/bookmark an article to Supabase
 app.post('/api/saved', async (req, res) => {
   const { title, source, description, url, published_at, image_url } = req.body;
   console.log('Saving article:', title);
@@ -84,7 +84,7 @@ app.post('/api/saved', async (req, res) => {
   }
 });
 
-// DELETE /api/saved/:id - remove a saved article from Supabase
+// remove a saved article from Supabase
 app.delete('/api/saved/:id', async (req, res) => {
   const id = req.params.id;
   console.log('Deleting saved article id:', id);

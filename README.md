@@ -2,16 +2,16 @@
 
 ## Description
 
-CyberFeed is a full-stack web application that aggregates cybersecurity news and threat intelligence into a single, organized dashboard. Instead of visiting multiple websites to stay informed, users can search for cybersecurity topics, filter articles by threat category (ransomware, phishing, malware, data breaches, hacking), and bookmark articles to read later. The application pulls live news from the GNews API, stores saved articles in a Supabase database, and visualizes threat category breakdowns using Chart.js.
+CyberFeed is a full-stack web application that aggregates cybersecurity news and threat intelligence into a single, organized dashboard. Instead of visiting multiple websites to stay informed, users can search for cybersecurity topics, filter articles by threat category (ransomware, phishing, malware, data breaches, hacking), and bookmark articles to read later. The application pulls live news from the GNews API and stores saved articles in a Supabase database.
 
 ## Target Browsers
 
 This application is designed for use on contemporary desktop browsers. It has been tested and works on:
 
-- **Google Chrome** (version 100+) - Recommended
-- **Mozilla Firefox** (version 100+)
-- **Microsoft Edge** (version 100+)
-- **Safari** (version 15+)
+- **Google Chrome** 
+- **Mozilla Firefox** 
+- **Microsoft Edge** 
+- **Safari** 
 
 The app is functional on mobile browsers but is optimized for desktop use.
 
@@ -101,7 +101,6 @@ This project includes a `vercel.json` configuration file. To deploy:
 
 ## How to Run Tests
 
-There are no automated tests written for this project at this time. To manually test the application:
 
 1. Start the server with `npm start`
 2. Open `http://localhost:3000` in your browser
@@ -228,16 +227,12 @@ DELETE /api/saved/abc123-uuid-here
 ## Known Bugs and Issues
 
 - **GNews free tier limit**: The GNews API free plan allows 100 requests per day. If the limit is exceeded, the news feed will stop loading and show an error.
-- **Duplicate saves**: The application does not currently check if an article has already been saved before inserting it into the database. A user could save the same article multiple times.
 - **Image loading errors**: Some article images from GNews return broken URLs. The `onerror` handler hides the broken image, but the card layout may appear differently without an image.
 - **No user authentication**: All users share the same saved articles list because there is no login system. Any user can see and delete any saved article.
 
 ## Roadmap for Future Development
 
 - **User authentication**: Add login functionality so each user has their own saved articles.
-- **Duplicate detection**: Before saving, check if the article URL already exists in the database and prevent duplicate saves.
-- **Search history**: Save user search queries to Supabase so users can quickly re-run past searches.
-- **Pagination**: The GNews API supports pagination. Implement "Load More" or page controls to show more than 10 articles.
 - **Email alerts**: Allow users to subscribe to email alerts for specific threat categories.
 - **Dark/light mode toggle**: Add a toggle so users can switch between the current dark theme and a light mode.
-- **Mobile optimization**: Improve the layout and usability for mobile devices.
+
