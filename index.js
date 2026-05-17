@@ -30,6 +30,10 @@ app.get('/saved', (req, res) => {
   res.sendFile('public/saved.html', { root: __dirname });
 });
 
+app.get('/ssbci', (req, res) => {
+  res.sendFile('public/ssbci.html', { root: __dirname });
+});
+
 // fetch news from GNews API
 app.get('/api/news', async (req, res) => {
   const query = req.query.q || 'cybersecurity';
@@ -81,6 +85,33 @@ app.post('/api/saved', async (req, res) => {
     res.send(error);
   } else {
     res.json(data);
+  }
+});
+
+// fetch SSBCI news from GNews API with topic and state filters
+app.get('/api/ssbci-news', async (req, res) => {
+  const topic = req.query.topic || '';
+  const state = req.query.state || '';
+  const extra = req.query.q || '';
+
+  let query = 'SSBCI "State Small Business Credit Initiative" Treasury';
+  if (state) query += ` "${state}"`;
+  if (topic && topic !== 'all') query += ` ${topic}`;
+  if (extra) query += ` ${extra}`;
+
+  console.log('Fetching SSBCI news, query:', query);
+
+  const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&max=10&token=${GNEWS_KEY}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log('Got', data.articles ? data.articles.length : 0, 'SSBCI articles');
+    res.json(data);
+  } catch (err) {
+    console.log('Error fetching SSBCI news:', err);
+    res.statusCode = 500;
+    res.json({ error: 'Failed to fetch SSBCI news' });
   }
 });
 

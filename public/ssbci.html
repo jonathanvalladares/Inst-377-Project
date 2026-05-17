@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSBCI News - Treasury State Small Business Credit Initiative</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">&#x1F6E1; CyberFeed</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/saved">Saved Articles</a>
+    <a href="/ssbci" class="active">SSBCI News</a>
+  </nav>
+
+  <div class="page-header ssbci-header">
+    <h1 class="ssbci-title">Treasury SSBCI News Dashboard</h1>
+    <p>Track the latest news on the State Small Business Credit Initiative &mdash; funding, state programs, applications, and policy updates.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="search-section">
+      <input type="text" id="searchInput" placeholder="Search SSBCI topics..." />
+      <button class="btn ssbci-btn-primary" onclick="searchNews()">Search</button>
+      <button class="btn btn-secondary" onclick="resetSearch()">Reset</button>
+    </div>
+
+    <div class="ssbci-filters-row">
+      <div class="category-filters">
+        <button class="filter-btn ssbci-filter active" data-topic="all" onclick="filterTopic('all', this)">All Topics</button>
+        <button class="filter-btn ssbci-filter" data-topic="funding" onclick="filterTopic('funding', this)">Funding</button>
+        <button class="filter-btn ssbci-filter" data-topic="application approved" onclick="filterTopic('application approved', this)">Applications</button>
+        <button class="filter-btn ssbci-filter" data-topic="state program" onclick="filterTopic('state program', this)">State Programs</button>
+        <button class="filter-btn ssbci-filter" data-topic="policy legislation" onclick="filterTopic('policy legislation', this)">Policy</button>
+        <button class="filter-btn ssbci-filter" data-topic="small business loan" onclick="filterTopic('small business loan', this)">Loans</button>
+      </div>
+
+      <div class="state-filter">
+        <select id="stateSelect" onchange="filterState()">
+          <option value="">All States</option>
+          <option value="Alabama">Alabama</option>
+          <option value="Alaska">Alaska</option>
+          <option value="Arizona">Arizona</option>
+          <option value="Arkansas">Arkansas</option>
+          <option value="California">California</option>
+          <option value="Colorado">Colorado</option>
+          <option value="Connecticut">Connecticut</option>
+          <option value="Delaware">Delaware</option>
+          <option value="Florida">Florida</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Hawaii">Hawaii</option>
+          <option value="Idaho">Idaho</option>
+          <option value="Illinois">Illinois</option>
+          <option value="Indiana">Indiana</option>
+          <option value="Iowa">Iowa</option>
+          <option value="Kansas">Kansas</option>
+          <option value="Kentucky">Kentucky</option>
+          <option value="Louisiana">Louisiana</option>
+          <option value="Maine">Maine</option>
+          <option value="Maryland">Maryland</option>
+          <option value="Massachusetts">Massachusetts</option>
+          <option value="Michigan">Michigan</option>
+          <option value="Minnesota">Minnesota</option>
+          <option value="Mississippi">Mississippi</option>
+          <option value="Missouri">Missouri</option>
+          <option value="Montana">Montana</option>
+          <option value="Nebraska">Nebraska</option>
+          <option value="Nevada">Nevada</option>
+          <option value="New Hampshire">New Hampshire</option>
+          <option value="New Jersey">New Jersey</option>
+          <option value="New Mexico">New Mexico</option>
+          <option value="New York">New York</option>
+          <option value="North Carolina">North Carolina</option>
+          <option value="North Dakota">North Dakota</option>
+          <option value="Ohio">Ohio</option>
+          <option value="Oklahoma">Oklahoma</option>
+          <option value="Oregon">Oregon</option>
+          <option value="Pennsylvania">Pennsylvania</option>
+          <option value="Rhode Island">Rhode Island</option>
+          <option value="South Carolina">South Carolina</option>
+          <option value="South Dakota">South Dakota</option>
+          <option value="Tennessee">Tennessee</option>
+          <option value="Texas">Texas</option>
+          <option value="Utah">Utah</option>
+          <option value="Vermont">Vermont</option>
+          <option value="Virginia">Virginia</option>
+          <option value="Washington">Washington</option>
+          <option value="West Virginia">West Virginia</option>
+          <option value="Wisconsin">Wisconsin</option>
+          <option value="Wyoming">Wyoming</option>
+          <option value="District of Columbia">Washington D.C.</option>
+          <option value="Puerto Rico">Puerto Rico</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h2>SSBCI Coverage Breakdown (Current Results)</h2>
+      <div class="chart-wrapper">
+        <canvas id="ssbciChart"></canvas>
+      </div>
+    </div>
+
+    <div id="articlesContainer">
+      <p class="status-msg">Loading SSBCI news...</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>CyberFeed &mdash; INST 377 Final Project &mdash; SSBCI data powered by GNews API</p>
+  </footer>
+
+  <script src="ssbci.js"></script>
+
+</body>
+</html>

@@ -442,3 +442,77 @@ footer {
     flex-direction: column;
   }
 }
+
+/* SSBCI page styles */
+.ssbci-header {
+  background: linear-gradient(135deg, #0f1a2e 0%, #0f1623 100%);
+  border-bottom-color: #2563eb;
+}
+
+.ssbci-title {
+  color: #60a5fa !important;
+}
+
+.ssbci-btn-primary {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.ssbci-btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.ssbci-filter:hover,
+.ssbci-filter.active {
+  border-color: #2563eb;
+  color: #60a5fa;
+  background-color: #2563eb15;
+}
+
+.ssbci-source {
+  color: #60a5fa !important;
+}
+
+.ssbci-card:hover {
+  border-color: #2563eb40 !important;
+}
+
+.ssbci-save-btn {
+  color: #60a5fa !important;
+  border-color: #2563eb !important;
+}
+
+.ssbci-save-btn:hover {
+  background-color: #2563eb20 !important;
+}
+
+.ssbci-filters-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.ssbci-filters-row .category-filters {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.state-filter select {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid #1e293b;
+  background-color: #111827;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.state-filter select:focus,
+.state-filter select:hover {
+  border-color: #2563eb;
+  color: #60a5fa;
+}
